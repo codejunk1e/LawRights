@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/bottom_sheet_radius.xml" value="0.24375" />
+        <entry key="app/src/main/res/drawable/default_dot.xml" value="0.24635416666666668" />
+        <entry key="app/src/main/res/drawable/indicator_bg_green.xml" value="0.24375" />
+        <entry key="app/src/main/res/drawable/law_card_link_bg.xml" value="0.2453125" />
+        <entry key="app/src/main/res/drawable/my_rights_action_bg.xml" value="0.24375" />
+        <entry key="app/src/main/res/drawable/search_background.xml" value="0.24375" />
+        <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.24635416666666668" />
+        <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/bottom_sheet.xml" value="0.22760416666666666" />
+        <entry key="app/src/main/res/layout/fragment_bookmarks.xml" value="0.22760416666666666" />
+        <entry key="app/src/main/res/layout/fragment_feeds.xml" value="0.22760416666666666" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.22760416666666666" />
+        <entry key="app/src/main/res/layout/law_card_item.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/law_card_link_item.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.22760416666666666" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

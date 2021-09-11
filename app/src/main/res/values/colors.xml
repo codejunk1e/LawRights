@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="light_green">#56DAAC</color>
+    <color name="mid_green">#03A87D</color>
+    <color name="deep_green">#007851</color>
+
+    <color name="secondary_color_light">#ffa4a2</color>
+    <color name="secondary_color_mid">#e57373</color>
+    <color name="secondary_color_dark">#AF4448</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <color name="law_text_green">#8EFFBB</color>
+    <color name="search_background">#F5F5F5</color>
+    <color name="hint_color">#A3A3A3</color>
+
+
+    <color name="bg_color_grid_one">#FFF0E6</color>
+    <color name="bg_color_grid_two">#ECEBFF</color>
+    <color name="bg_color_grid_three">#FFE7ED</color>
+    <color name="bg_color_grid_four">#D9F6FF</color>
+    <color name="bg_color_grid_five">#E6F7FF</color>
+    <color name="bg_color_grid_six">#FFF0E6</color>
+    <color name="bg_color_grid_seven">#FFD8D0</color>
+</resources>

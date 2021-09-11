@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.LawRights" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/mid_green</item>
+        <item name="colorPrimaryVariant">@color/deep_green</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/secondary_color_mid</item>
+        <item name="colorSecondaryVariant">@color/secondary_color_light</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+    </style>
+</resources>
