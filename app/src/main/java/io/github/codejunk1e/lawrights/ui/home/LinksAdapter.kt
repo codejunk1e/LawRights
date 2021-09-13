@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.codejunk1e.lawrights.databinding.LawCardLinkItemBinding
 import io.github.codejunk1e.lawrights.models.LinksModel
 import io.github.codejunk1e.lawrights.ui.home.LinksAdapter.LinksViewHolder
+import javax.inject.Inject
 
-class LinksAdapter(
+class LinksAdapter @Inject constructor(
     val items :List<LinksModel>,
-    val clickFnx : (LinksModel) -> Unit
     ) :RecyclerView.Adapter<LinksViewHolder>() {
+
+    lateinit var clickFnx : (LinksModel) -> Unit
 
     inner class LinksViewHolder(val binding: LawCardLinkItemBinding) :RecyclerView.ViewHolder(binding.root){
         fun bind(card: LinksModel) {

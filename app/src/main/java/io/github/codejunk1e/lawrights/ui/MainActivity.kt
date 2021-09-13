@@ -8,9 +8,12 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import io.github.codejunk1e.lawrights.R
 import io.github.codejunk1e.lawrights.databinding.ActivityMainBinding
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -24,26 +27,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when(item.itemId) {
-                R.id.home -> {
-                    navController.navigate(R.id.homeFragment)
-                    true
-                }
-                R.id.feeds -> {
-                    navController.navigate(R.id.feedsFragment)
-                    true
-                }
-                R.id.bookmarks -> {
-                    navController.navigate(R.id.bookmarksFragment)
-                    true
-                }
-                R.id.settings -> {
-                    navController.navigate(R.id.settingsFragment)
-                    true
-                }
-                else -> false
-            }
-        }
+        binding.bottomNavigation.setupWithNavController(navController)
     }
 }

@@ -1,30 +1,40 @@
 package io.github.codejunk1e.lawrights.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import io.github.codejunk1e.lawrights.R
 import io.github.codejunk1e.lawrights.databinding.FragmentHomeBinding
 import io.github.codejunk1e.lawrights.ext.dpToPx
 import io.github.codejunk1e.lawrights.ext.hide
 import io.github.codejunk1e.lawrights.ext.show
-import io.github.codejunk1e.lawrights.models.CardModel
-import io.github.codejunk1e.lawrights.models.LinksModel
+import io.github.codejunk1e.lawrights.models.Result
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     lateinit var standardBottomSheetBehavior: BottomSheetBehavior<FrameLayout>
+    val viewModel by viewModels<HomeViewModel>()
+
+    @Inject lateinit var lawSliderAdapter: LawSliderAdapter
+    @Inject lateinit var bottomSheetRecyclerAdapter: BottomSheetRecyclerAdapter
+    @Inject lateinit var linksAdapter: LinksAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,11 +47,29 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lawCardViewpger.adapter = LawSliderAdapter(getDummyCards())
+        viewModel.loginUser()
         setupViewpager()
         setupLinks()
         setupBottomSheet()
         setupClickListeners()
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        viewModel.loginState.observe(viewLifecycleOwner, { result ->
+            when (result) {
+                is Result.Error -> {
+                    Snackbar.make(binding.root, result.error, Snackbar.LENGTH_SHORT).show()
+                }
+                Result.Loading -> {}
+                is Result.Success -> {}
+            }
+        })
+
+        viewModel.getAllRights().observe(viewLifecycleOwner, {
+            bottomSheetRecyclerAdapter.items = it
+            bottomSheetRecyclerAdapter.notifyDataSetChanged()
+        })
     }
 
     private fun setupClickListeners() {
@@ -59,14 +87,14 @@ class HomeFragment : Fragment() {
             isFitToContents = false
             halfExpandedRatio = 0.9F
             expandedOffset = 300
-            peekHeight = 1700
+            peekHeight = 1900
         }
         standardBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         standardBottomSheetBehavior.saveFlags = BottomSheetBehavior.SAVE_ALL
 
         val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when(newState){
+                when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> {
                         binding.apply {
                             fab.hide()
@@ -79,12 +107,15 @@ class HomeFragment : Fragment() {
                             backdrop.show()
                         }
                     }
+                    else -> {
+                    }
                 }
             }
+
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         }
         standardBottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback)
-        binding.mainView.isEnabled = false
+        binding.bottomsheetLayout.bottomsheetRecyclerview.adapter = bottomSheetRecyclerAdapter
     }
 
     private fun setupLinks() {
@@ -96,22 +127,20 @@ class HomeFragment : Fragment() {
         }
 
         binding.recyclerGrid.layoutManager = layoutManager
-        binding.recyclerGrid.adapter = LinksAdapter(getDummyLinks()){
+        binding.recyclerGrid.adapter = linksAdapter
+        linksAdapter.clickFnx = {
             standardBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            viewModel.fetchAllRights()
         }
     }
 
     private fun setupViewpager() {
+        binding.lawCardViewpger.adapter = lawSliderAdapter
 
         val offsetPx = resources
-            .getDimension(R.dimen.viewpager_offset)
-            .toInt()
-            .dpToPx(resources.displayMetrics)
-
+            .getDimension(R.dimen.viewpager_offset).toInt().dpToPx(resources.displayMetrics)
         val pageMarginPx = resources
-            .getDimension(R.dimen.viewpager_margin)
-            .toInt()
-            .dpToPx(resources.displayMetrics)
+            .getDimension(R.dimen.viewpager_margin).toInt().dpToPx(resources.displayMetrics)
 
         binding.lawCardViewpger.apply {
             clipToPadding = false
@@ -121,9 +150,7 @@ class HomeFragment : Fragment() {
             setPageTransformer(MarginPageTransformer(pageMarginPx))
         }
 
-        TabLayoutMediator(binding.indicator, binding.lawCardViewpger) { tab, position ->
-
-        }.attach()
+        TabLayoutMediator(binding.indicator, binding.lawCardViewpger) { _, _ -> }.attach()
     }
 
     override fun onDestroyView() {
@@ -132,63 +159,17 @@ class HomeFragment : Fragment() {
     }
 
 
-    fun getDummyCards() = listOf(
-        CardModel(
-            image = R.drawable.law_card_image,
-            caption = getString(R.string.law_caption),
-            desc = getString(R.string.law_description),
-            actionText = getString(R.string.law_action_text)
-        ),
-        CardModel(
-            image = R.drawable.law_card_image,
-            caption = getString(R.string.law_caption),
-            desc = getString(R.string.law_description),
-            actionText = getString(R.string.law_action_text)
-        ),
-        CardModel(
-            image = R.drawable.law_card_image,
-            caption = getString(R.string.law_caption),
-            desc = getString(R.string.law_description),
-            actionText = getString(R.string.law_action_text)
-        ),
-        CardModel(
-            image = R.drawable.law_card_image,
-            caption = getString(R.string.law_caption),
-            desc = getString(R.string.law_description),
-            actionText = getString(R.string.law_action_text)
-        )
-    )
-
-    fun getDummyLinks() = listOf(
-        LinksModel(
-            title = "My Rights",
-            color = R.color.bg_color_grid_one
-        ),
-        LinksModel(
-            title = "My Duties",
-            color = R.color.bg_color_grid_two
-        ),
-        LinksModel(
-            title = "General \n" +
-                    "Provisions",
-            color = R.color.bg_color_grid_three
-        ),
-        LinksModel(
-            title = "Find a Lawyer",
-            color = R.color.bg_color_grid_four
-        ),
-        LinksModel(
-            title = "Know your\n" +
-                    "Representatives",
-            color = R.color.bg_color_grid_five
-        ),
-        LinksModel(
-            title = "Constitution",
-            color = R.color.bg_color_grid_six
-        ),
-        LinksModel(
-            title = "Report a Violation",
-            color = R.color.bg_color_grid_seven
-        )
-    )
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (standardBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                    standardBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                } else {
+                    requireActivity().finish()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
+    }
 }

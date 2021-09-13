@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import io.github.codejunk1e.lawrights.databinding.FragmentBookmarksBinding
 import io.github.codejunk1e.lawrights.databinding.FragmentHomeBinding
 
+@AndroidEntryPoint
 class BookmarksFragment : Fragment() {
 
     private var _binding: FragmentBookmarksBinding? = null
@@ -26,5 +28,4 @@ class BookmarksFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

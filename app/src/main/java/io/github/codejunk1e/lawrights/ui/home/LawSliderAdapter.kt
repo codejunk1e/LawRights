@@ -5,16 +5,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.github.codejunk1e.lawrights.databinding.LawCardItemBinding
 import io.github.codejunk1e.lawrights.models.CardModel
+import javax.inject.Inject
 
-class LawSliderAdapter(val items :List<CardModel>) : RecyclerView.Adapter<LawSliderAdapter.LawSliderViewHolder>() {
+class LawSliderAdapter @Inject constructor(
+    val items :List<CardModel>
+    ) : RecyclerView.Adapter<LawSliderAdapter.LawSliderViewHolder>() {
 
     inner class LawSliderViewHolder(val binding : LawCardItemBinding) :RecyclerView.ViewHolder(binding.root){
         fun bind(card: CardModel) {
              binding.apply {
                  rootLayout.setBackgroundResource(card.image)
-                 caption.text = card.caption
-                 description.text = card.desc
-                 actionText.text = card.actionText
+                 binding.rootLayout.context.apply {
+                     caption.text = getString(card.caption)
+                     description.text = getString(card.desc)
+                     actionText.text = getString(card.actionText)
+                 }
              }
         }
     }
