@@ -20,7 +20,7 @@ Custom UI design was done with the standard bottomsheet rather than the modal bo
 ## How the App works
 Since there was no login screen provided, when the user opens the app, a request is authomatically sent in to log him/her in. After that, the auth token is then fetched and saved with the SessionManager. 
 
-This ath token is then used to fetch data from the endpoint. When the data is fetched, it is automatically saved into the apps DB.
+This ath token is then used to fetch data from the endpoint. When the data is fetched, it is automatically saved into the apps DB. On subsequent opening of the app, lack of internet will not affect the exerince because the data save in the Db will then be used.
 
 The Auth token expires in 10m so it is possible that a 401 is thrown when the fetch is called. In this event may occur, a custom exception handler was setup to hadle it. The app automatically logs in the user again, saves the token and then fetches the data. 
 
