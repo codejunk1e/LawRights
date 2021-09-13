@@ -8,11 +8,6 @@ import io.github.codejunk1e.lawrights.R
 import io.github.codejunk1e.lawrights.models.CardModel
 import io.github.codejunk1e.lawrights.models.LinksModel
 
-@InstallIn(FragmentComponent::class)
-@Module
-class DummyModule {
-
-    @Provides
     fun provideCardsDummyList() = listOf(
         CardModel(
             image = R.drawable.law_card_image, caption = R.string.law_caption,
@@ -32,7 +27,6 @@ class DummyModule {
         ),
     )
 
-    @Provides
     fun provideDummyLinksList() = listOf(
         LinksModel(title = "My Rights", color = R.color.bg_color_grid_one),
         LinksModel(title = "My Duties", color = R.color.bg_color_grid_two),
@@ -42,4 +36,3 @@ class DummyModule {
         LinksModel(title = "Constitution", color = R.color.bg_color_grid_six),
         LinksModel(title = "Report a Violation", color = R.color.bg_color_grid_seven)
     )
-}

@@ -14,28 +14,17 @@ import javax.inject.Singleton
 class DatabaseModule {
 
     @Provides
-    fun providesDao( @ProdDB database: LawRightsDatabase): RightsDao {
+    fun providesDao( database: LawRightsDatabase): RightsDao {
         return database.rightsDao()
     }
 
     @Singleton
     @Provides
-    @ProdDB
     fun providesDatabase(
         @ApplicationContext applicationContext : Context
     ): LawRightsDatabase {
         return Room.databaseBuilder(applicationContext,
             LawRightsDatabase::class.java, "law-rights-database"
         ).build()
-    }
-
-    @Singleton
-    @Provides
-    @InMemoryDB
-    fun providesInMemoryDatabase(
-        @ApplicationContext applicationContext : Context
-    ): LawRightsDatabase {
-        return Room.inMemoryDatabaseBuilder(applicationContext,
-            LawRightsDatabase::class.java).build()
     }
 }

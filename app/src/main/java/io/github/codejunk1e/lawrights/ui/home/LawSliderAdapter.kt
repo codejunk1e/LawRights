@@ -5,11 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.github.codejunk1e.lawrights.databinding.LawCardItemBinding
 import io.github.codejunk1e.lawrights.models.CardModel
+import io.github.codejunk1e.lawrights.ui.provideCardsDummyList
 import javax.inject.Inject
 
-class LawSliderAdapter @Inject constructor(
-    val items :List<CardModel>
-    ) : RecyclerView.Adapter<LawSliderAdapter.LawSliderViewHolder>() {
+class LawSliderAdapter @Inject constructor()
+    :RecyclerView.Adapter<LawSliderAdapter.LawSliderViewHolder>() {
+
+    val items :List<CardModel> = provideCardsDummyList()
 
     inner class LawSliderViewHolder(val binding : LawCardItemBinding) :RecyclerView.ViewHolder(binding.root){
         fun bind(card: CardModel) {
